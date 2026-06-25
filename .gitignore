@@ -1,0 +1,17 @@
+# Binario compilado
+/ga_rastrigin
+
+# Ambiente virtual Python
+/.venv/
+
+# Resultados gerados (descomente se nao quiser versionar)
+# /results/
+
+# Artefatos LaTeX
+template-latex/*.aux
+template-latex/*.bbl
+template-latex/*.blg
+template-latex/*.log
+template-latex/*.dvi
+template-latex/*.out
+template-latex/*.toc
