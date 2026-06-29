@@ -1,0 +1,119 @@
+======================================================================
+ROTEIRO DE APRESENTAÇÃO - ALGORITMO GENÉTICO PARALELO (OPENMP)
+======================================================================
+
+Olá! Este arquivo contém tópicos e sugestões de falas para ajudar você 
+a estruturar a apresentação do projeto. Você pode adaptar as falas ao 
+seu próprio estilo e tempo disponível.
+
+----------------------------------------------------------------------
+1. INTRODUÇÃO E MOTIVAÇÃO
+----------------------------------------------------------------------
+Tópico:
+- Dificuldade na otimização de funções matemáticas complexas.
+- O custo computacional dos Algoritmos Genéticos (AGs).
+
+Fala sugerida:
+"Bom dia/boa noite a todos. Nosso trabalho trata da paralelização de um 
+Algoritmo Genético focado na otimização de funções matemáticas de alto 
+custo. Na prática, a etapa que mais consome tempo em um AG é a avaliação 
+dos indivíduos (cálculo de aptidão ou fitness). Como essas avaliações são 
+independentes entre si, trata-se de um problema 'embaraçosamente paralelo',
+ideal para ser distribuído entre múltiplos núcleos do processador."
+
+----------------------------------------------------------------------
+1.5. O QUE É UM ALGORITMO GENÉTICO E COMO ELE AJUDA NO MUNDO REAL?
+----------------------------------------------------------------------
+Tópico:
+- O conceito básico de Algoritmos Genéticos (evolução, população, seleção).
+- Exemplos de aplicações reais (Engenharia, Logística, Finanças).
+
+Fala sugerida:
+"Para quem não tem familiaridade, um Algoritmo Genético funciona imitando a 
+evolução biológica. Nós criamos uma 'população' de possíveis soluções para 
+um problema e as combinamos (cruzamento/mutação) ao longo de várias gerações. 
+As melhores sobrevivem. 
+Embora a gente use uma função matemática aqui (Rastrigin) para testar, esse 
+código é a base para resolver problemas reais complexos: por exemplo, projetar 
+o formato mais aerodinâmico de um avião (onde cada simulação de vento demora 
+minutos), otimizar rotas de caminhões de entrega para economizar combustível, 
+ou até treinar redes neurais. O paralelismo que aplicamos aqui é exatamente 
+o que permite que essas soluções reais sejam encontradas em tempo hábil."
+
+----------------------------------------------------------------------
+2. A FUNÇÃO RASTRIGIN E O DESAFIO
+----------------------------------------------------------------------
+Tópico:
+- O que é a função de Rastrigin (minimização clássica, adaptada para maximização).
+- Adição da carga artificial (load).
+
+Fala sugerida:
+"Utilizamos como benchmark a função de Rastrigin, que é cheia de ótimos locais. 
+Nosso objetivo é maximizar o negativo dessa função, de modo que o ótimo global 
+seja zero. Para simular o custo de um problema do mundo real (como uma 
+simulação física pesada), inserimos um laço de cálculos trigonométricos extras 
+como 'carga artificial' na função de fitness. Isso garante que a paralelização 
+realmente valha a pena diante do overhead de gerenciar as threads."
+
+----------------------------------------------------------------------
+3. METODOLOGIA E PARALELIZAÇÃO COM OPENMP
+----------------------------------------------------------------------
+Tópico:
+- Decisões de projeto (Representação real, Torneio, Crossover Aritmético, etc).
+- O modelo mestre-escravo e a diretiva OpenMP.
+
+Fala sugerida:
+"Implementamos o AG do zero em C++. Usamos representação por números reais, 
+seleção por torneio de 3, crossover aritmético, mutação gaussiana e elitismo. 
+A grande sacada foi usar o modelo mestre-escravo com a biblioteca OpenMP. Com 
+uma simples diretiva '#pragma omp parallel for', dividimos a avaliação de 
+aptidão da população entre as threads. Mantivemos as outras etapas (seleção, 
+cruzamento) de forma sequencial de propósito, para estudarmos os efeitos da 
+Lei de Amdahl."
+
+----------------------------------------------------------------------
+4. O AMBIENTE EXPERIMENTAL (ARQUITETURA HÍBRIDA)
+----------------------------------------------------------------------
+Tópico:
+- O processador (Intel Core i5-12450H).
+- P-cores (Performance) vs E-cores (Efficiency).
+
+Fala sugerida:
+"Rodamos os testes num processador Intel Core i5 de 12ª geração, que possui 
+uma arquitetura híbrida. Ele conta com 4 núcleos de alto desempenho (P-cores) 
+com Hyper-Threading, e 4 núcleos de eficiência (E-cores) mais lentos, somando 
+12 threads lógicas. Isso traz uma dinâmica muito interessante para o 
+comportamento do speedup."
+
+----------------------------------------------------------------------
+5. RESULTADOS E MÉTRICAS (SPEEDUP E EFICIÊNCIA)
+----------------------------------------------------------------------
+Tópico:
+- Os ganhos de tempo e Speedup.
+- A queda na eficiência com o aumento de threads.
+
+Fala sugerida:
+"Para um tamanho grande de entrada, reduzimos o tempo de 8,8 segundos (1 thread) 
+para cerca de 2,1 segundos (12 threads), obtendo um speedup de até 4,18x. 
+No entanto, vimos que a eficiência não é linear. O desempenho sobe muito bem até 
+4 threads (usando os P-cores). Quando passamos a usar os E-cores (entre 4 e 8 
+threads), a velocidade aumenta, mas a eficiência cai, pois são núcleos mais 
+fracos. Acima de 8 threads entramos no Hyper-Threading, onde o ganho é bem 
+marginal, porque dois processos competem pelo mesmo núcleo físico."
+
+----------------------------------------------------------------------
+6. DISCUSSÃO DA MÉTRICA DE KARP-FLATT E CONCLUSÃO
+----------------------------------------------------------------------
+Tópico:
+- Karp-Flatt: overhead paralelo.
+- Resumo final.
+
+Fala sugerida:
+"Analisamos isso matematicamente pela métrica de Karp-Flatt, que detecta a fração 
+serial do programa. Observamos que essa métrica cresce conforme adicionamos mais 
+threads. Isso comprova que a limitação do nosso escalonamento não é apenas a 
+parte sequencial do algoritmo, mas também o overhead paralelo, ou seja, o custo 
+de criar threads e, principalmente, a assimetria do nosso processador híbrido.
+Para concluir, a paralelização da avaliação com OpenMP é altamente eficaz, fácil 
+de implementar e traz retornos expressivos, desde que a carga paralela compense os 
+custos de escalonamento."
