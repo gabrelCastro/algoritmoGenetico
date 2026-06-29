@@ -30,7 +30,8 @@ Makefile                 # compila com -O2 -fopenmp
 scripts/run_experiments.sh   # roda 10x cada (threads x tamanho) -> results/timings.csv
 scripts/plot_results.py      # gera gráficos (IC 95%, speedup, eficiência, Karp-Flatt)
 results/                 # CSVs e PNGs gerados
-template-latex/          # artigo no formato SBC
+artigo_final.pdf         # artigo final compilado
+apresentacao_roteiro.txt # roteiro para a apresentação do projeto
 ```
 
 ## Pré-requisitos
@@ -92,6 +93,4 @@ consolidada) e os gráficos `tempo.png`, `speedup.png`, `eficiencia.png`,
 - **Eficiência:** `E(p) = S(p) / p`
 - **Karp-Flatt:** `e = (1/S(p) - 1/p) / (1 - 1/p)` — fração serial experimental
 
-## Relatório
-
-O artigo no formato SBC está em [template-latex/sbc-template.tex](template-latex/sbc-template.tex).
+O artigo compilado no formato SBC está disponível em `artigo_final.pdf` na raiz do projeto.
